@@ -22,10 +22,10 @@ const C =
 [
   [ 1, 0, 1, 1, 0, 1, 0 ],
   [ 0, 0, 1, 0, 1, 0, 0 ],
-  [ 1, 1, 1, 1, 1, 0, 0 ],
+  [ 1, 1, 1, 1, 0, 0, 0 ],
   [ 0, 1, 1, 1, 1, 0, 1 ],
   [ 1, 1, 1, 1, 1, 0, 1 ],
-  [ 0, 0, 1, 1, 1, 0, 0 ]
+  [ 0, 0, 1, 1, 0, 0, 0 ]
 ];
 
 function sumSequence(line, x) {
@@ -42,34 +42,23 @@ function sumSequence(line, x) {
   return sum;
 }
 
-function findSquare(matrix, y, x) {
-  let topSquare = sumSequence(matrix[y], x);
+function findSquare(matrix, y, x, subtract = 1) {
+  const topSquare = sumSequence(matrix[y], x) - (subtract - 1);
   let sum = topSquare;
 
   if (sum === 1)
     return 1
   
   for (let i = 1; i <= topSquare - 1; i++) {
-    let count = topSquare - i;
-    const newTopSquare = topSquare - (i - 1);
-    sum = newTopSquare;
-    
-    for (let j = 1; j <= count; j++) {
-      const newSum = sumSequence(matrix[y + j], x);
+    const newSum = sumSequence(matrix[y + i], x);
       
-      if (newSum === newTopSquare)
-        sum += newSum;
-      else
-        break;
-    }
-
-    if (Math.pow(newTopSquare, 2) === sum)
-      break;
+    if (newSum === topSquare)
+      sum += newSum;
     else
-      sum = 0;
+      break;
   }
 
-  return sum;
+  return Math.pow(topSquare, 2) === sum ? sum : findSquare(matrix, y, x, subtract + 1);
 }
 
 function findLargerSquare(matrix) {
@@ -78,11 +67,12 @@ function findLargerSquare(matrix) {
   for (let y = 0; y < matrix.length; y++) {
     for (let x = 0; x < matrix[y].length; x++) {
       const sum = findSquare(matrix, y, x);
-      x += Math.sqrt(sum);
       
-      if(sum > biggerSum) {
+      if (sum > 0)
+        x += Math.sqrt(sum) - 1;
+      
+      if(sum > biggerSum)
         biggerSum = sum;
-      }
     }
   }
 
