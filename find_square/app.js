@@ -63,27 +63,34 @@ function findSquare(matrix, y, x, subtract = 1) {
 
 function findLargerSquare(matrix) {
   let biggerSum = 0;
+  let text = 'No squares found';
   
   for (let y = 0; y < matrix.length; y++) {
     for (let x = 0; x < matrix[y].length; x++) {
       const sum = findSquare(matrix, y, x);
       
+      if(sum > biggerSum) {
+        biggerSum = sum;
+        const size = Math.sqrt(sum);
+
+        text = `From matrix[${y}][${x}] to matrix[${y + size - 1}][${x + size - 1}]`;
+      }
+
       if (sum > 0)
         x += Math.sqrt(sum) - 1;
-      
-      if(sum > biggerSum)
-        biggerSum = sum;
     }
   }
 
-  return biggerSum;
+  return {
+    biggerSum,
+    text,
+  };
 }
 
-console.log(A);
-console.log(findLargerSquare(A));
-
-console.log(B);
-console.log(findLargerSquare(B));
-
-console.log(C);
-console.log(findLargerSquare(C));
+for (const m of [A, B, C]) {
+  console.log('Matrix:');
+  console.log(m);
+  console.log('Sum: ', findLargerSquare(m).biggerSum);
+  console.log('Coordanates: ', findLargerSquare(m).text);
+  console.log('\n');
+}
