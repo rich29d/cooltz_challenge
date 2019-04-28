@@ -1,4 +1,14 @@
-const matrix =
+const A =
+[
+  [ 1, 0, 1, 1, 0, 1, 0 ],
+  [ 0, 0, 1, 0, 1, 0, 0 ],
+  [ 1, 1, 1, 0, 1, 0, 0 ],
+  [ 0, 1, 1, 1, 1, 0, 1 ],
+  [ 1, 1, 1, 1, 0, 0, 1 ],
+  [ 0, 1, 1, 1, 0, 0, 0 ]
+];
+
+const B =
 [
   [ 1, 0, 1, 1, 0, 1, 0 ],
   [ 0, 0, 1, 0, 1, 0, 0 ],
@@ -8,24 +18,32 @@ const matrix =
   [ 0, 1, 1, 1, 1, 0, 0 ]
 ];
 
-let biggerSum = 0;
+const C =
+[
+  [ 1, 0, 1, 1, 0, 1, 0 ],
+  [ 0, 0, 1, 0, 1, 0, 0 ],
+  [ 1, 1, 1, 1, 1, 0, 0 ],
+  [ 0, 1, 1, 1, 1, 0, 1 ],
+  [ 1, 1, 1, 1, 1, 0, 1 ],
+  [ 0, 0, 1, 1, 1, 0, 0 ]
+];
 
-function findLine(y, x) {
+function sumSequence(line, x) {
   let sum = 0;
   let newX = x;
-  let findX = matrix[y] && matrix[y][newX];
+  let findX = line && line[newX];
 
   while(findX === 1) {
     newX++;
     sum++;
-    findX = matrix[y][newX];
+    findX = line[newX];
   }
 
   return sum;
 }
 
-function findSquare(y, x) {
-  let topSquare = findLine(y, x);
+function findSquare(matrix, y, x) {
+  let topSquare = sumSequence(matrix[y], x);
   let sum = topSquare;
 
   if (sum === 1)
@@ -37,7 +55,7 @@ function findSquare(y, x) {
     sum = newTopSquare;
     
     for (let j = 1; j <= count; j++) {
-      const newSum = findLine(y + j, x);
+      const newSum = sumSequence(matrix[y + j], x);
       
       if (newSum === newTopSquare)
         sum += newSum;
@@ -54,16 +72,28 @@ function findSquare(y, x) {
   return sum;
 }
 
-for (let y = 0; y < matrix.length; y++) {
-  for (let x = 0; x < matrix[y].length; x++) {
-    const sum = findSquare(y, x);
-    
-    if(sum > biggerSum) {
-      biggerSum = sum;
-      subMatrix.init.x = x;
-      subMatrix.init.y = y;
+function findLargerSquare(matrix) {
+  let biggerSum = 0;
+  
+  for (let y = 0; y < matrix.length; y++) {
+    for (let x = 0; x < matrix[y].length; x++) {
+      const sum = findSquare(matrix, y, x);
+      x += Math.sqrt(sum);
+      
+      if(sum > biggerSum) {
+        biggerSum = sum;
+      }
     }
   }
+
+  return biggerSum;
 }
 
-console.log(biggerSum);
+console.log(A);
+console.log(findLargerSquare(A));
+
+console.log(B);
+console.log(findLargerSquare(B));
+
+console.log(C);
+console.log(findLargerSquare(C));
