@@ -1,0 +1,22 @@
+{
+  "name": "cooltz_challenge",
+  "version": "1.0.0",
+  "description": "Proof of knowledge divided into three challenges",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rich29d/cooltz_challenge.git"
+  },
+  "author": "Richard Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rich29d/cooltz_challenge/issues"
+  },
+  "homepage": "https://github.com/rich29d/cooltz_challenge#readme"
+}
