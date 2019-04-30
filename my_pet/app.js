@@ -6,33 +6,29 @@ let interval;
 let time = 0;
 let stopwatch = 0;
 let namePet = 'Bolt';
-let dead = false;
 
 const myPet = {
-  hunger : components.bar('hungry ', 'green', 1),
-  dirt   : components.bar('dirty  ', 'red', 1),
-  boredom: components.bar('bored  ', 'blue', 1)
+  hunger : components.bar('hungry ', 'green', 30),
+  boredom: components.bar('bored  ', 'blue', 10),
+  dirt   : components.bar('dirty  ', 'red', 50),
 }
 
-const action = choose => {
-  if (dead) return;
-  
+const action = choose => {  
   switch(choose) {
     case 'eat':
-      console.log(colors.blue(`The ${namePet} is fed. `));
       myPet.hunger.setCurrent(0);
-      myPet.dirt.addCurrent(1);      
+      myPet.dirt.addCurrent(1);
       break;
 
     case 'play':
-      console.log(colors.blue(`The ${namePet} joked a lot. `));
       myPet.boredom.setCurrent(0);
       myPet.dirt.addCurrent(1);
       break;
 
     case 'shower':
-      console.log(colors.blue(`The ${namePet} took a great shower `));
+      console.log('\x1Bc');
       myPet.dirt.setCurrent(0);
+      showAll();
       timer();
       break;
 
@@ -76,34 +72,37 @@ const showAll = () => {
 
 const timer = () => {
   const timerInterval = setInterval(() => {
-    time += 1;
+    time += 10;
     let changedStatus = myPet.hunger.verify(time, false);
     changedStatus = myPet.dirt.verify(time, changedStatus);
     changedStatus = myPet.boredom.verify(time, changedStatus);
 
-    console.log(time);
-
-    if (changedStatus) {
+    if (changedStatus)
       clearInterval(timerInterval);
-    }
-  }, 1000)
+  }, 10000)
 };
 
-const configPet = () => {
-  const actPet = () => {
+const configPet = name => {
+  const actPet = () => {    
     showAll();
-    events.act('What do you want to do? (eat, play, shower)', resp => action(resp));
+    events.act('What do you want to do? (eat, shower, play, finish)', resp => action(resp));
   }
+
   myPet.hunger.setAct(actPet);
   myPet.dirt.setAct(actPet);
   myPet.boredom.setAct(actPet);
+
+  myPet.hunger.setNamePet(name);
+  myPet.dirt.setNamePet(name);
+  myPet.boredom.setNamePet(name);
 }
 
 components.apresetantion();
 events.askName(name => {
-  namePet = name;
-  configPet();
-  showAll();
+  namePet = name;  
+  console.log('\x1Bc');
+  console.log(colors.blue(`Ok, the name your pet is ${namePet}, wait.`))
+  configPet(name);
   timer();
   monitor();
 });

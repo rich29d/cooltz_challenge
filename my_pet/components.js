@@ -58,7 +58,7 @@ const components = {
     }
     
     const notificate = () => {      
-      console.log('');
+      console.log('\x1Bc');
       console.log(colors[color](`${namePet} is ${adjective}`));
       act();
     }
@@ -71,10 +71,13 @@ const components = {
   },
 
   badNews: stopwatch => {
-    console.log(colors.magenta(
-      `Unfortunately I have bad news for you, your little animal has gone to a much better place, but now he is at peace.
-      He lived ${stopwatch} seconds.`
+    console.log('\x1Bc');
+  
+    console.log(colors.cyan(
+      `:( Unfortunately I have bad news for you, your little animal has gone to a much better place, but now he is at peace. He lived ${stopwatch} seconds.`
     ));
+
+    process.exit(1);
   },
 
   message: text => {

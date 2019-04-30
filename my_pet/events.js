@@ -31,7 +31,7 @@ const events = {
         }
       }
     }, function (err, result) {
-      result.method && callback && callback(result.method);
+      result && (result.method || result.method ===  '') && callback && callback(result.method);
     });
   }
 }
