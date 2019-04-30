@@ -2,40 +2,9 @@
   "name": "node-progress-bars",
   "version": "1.0.8",
   "description": "Ascii progress-bar(s) in the terminal.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bubkoo/ascii-progress.git"
-  },
-  "keywords": [
-    "progress",
-    "bar",
-    "meter",
-    "ascii",
-    "status",
-    "console",
-    "terminal",
-    "ansi.js"
-  ],
-  "author": {
-    "name": "bubkoo",
-    "email": "bubkoo.wy@gmail.com"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bubkoo/ascii-progress/issues"
-  },
-  "homepage": "https://github.com/bubkoo/ascii-progress",
+  "main": "app.js",
   "dependencies": {
-    "ansi.js": "0.0.5",
     "colors": "^1.1.2",
-    "end-with": "^1.0.2",
-    "get-cursor-position": "^1.0.4",
-    "on-new-line": "1.0.0",
-    "prompts": "^2.0.4",
     "read": "1.0.x",
     "revalidator": "0.1.x",
     "start-with": "^1.0.2",

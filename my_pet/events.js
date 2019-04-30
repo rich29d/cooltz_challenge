@@ -1,6 +1,5 @@
 const prompt = require("./lib/prompt");
 const colors = require("colors/safe");
-const prompts = require('prompts');
 
 prompt.start();
 
