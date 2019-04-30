@@ -4,7 +4,10 @@
   "description": "Proof of knowledge divided into three challenges",
   "main": "app.js",
   "scripts": {
-    "find_larger_square": "node ./find_larger_square/app.js"
+    "install": "npm install --prefix ./my_pet && npm install --prefix ./calculator",
+    "find_larger_square": "node ./find_larger_square/app.js",
+    "my_pet": "node ./my_pet/app.js",
+    "calculator": "npm run serve --prefix ./calculator"
   },
   "repository": {
     "type": "git",
