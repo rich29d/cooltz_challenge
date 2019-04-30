@@ -1,6 +1,6 @@
 const prompt = require("./lib/prompt");
-const prompts = require('prompts');
 const colors = require("colors/safe");
+const prompts = require('prompts');
 
 prompt.start();
 
@@ -23,22 +23,17 @@ const events = {
     });
   },
 
-  menu: async callback => {
-    return await prompts([
-      {
-        type: 'select',
-        name: 'action',
-        message: 'What do you want to do?',
-        choices: [
-          { title: 'Refresh', value: 'refresh' },
-          { title: 'eat', value: 'eat' },
-          { title: 'shower', value: 'shower' },
-          { title: 'play', value: 'play' },
-          { title: 'finish', value: 'finish' },
-        ],
+  act(message, callback) {
+    prompt.get({
+      properties: {
+        method: {
+          description: colors.magenta(`${message}`),
+        }
       }
-    ]);
-  },
+    }, function (err, result) {
+      result.method && callback && callback(result.method);
+    });
+  }
 }
 
 module.exports = events;

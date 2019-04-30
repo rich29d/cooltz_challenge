@@ -4,7 +4,7 @@ const colors = require("colors/safe");
 prompt.start();
 
 const components = {
-  bar: (name = 'x', color = 'blue', seconds = 10) => {
+  bar: (adjective = 'x', color = 'blue', seconds = 10) => {
     let numCurrent = 0;
     let numTotal = 4;
     let numFilled = numCurrent * 10;
@@ -12,51 +12,68 @@ const components = {
     let filled = colors[color]('▇');
     let blank = colors.grey('░');
     let current = colors.magenta(numCurrent);
+    let double = false;
+    let increment = 1;
+    let namePet = 'Pet';
+    let act = () => {};
     
-    const miliseconds = seconds * 1000;
-    const nameBar = colors.magenta(name);
+    const nameBar = colors[color](adjective);
     const total = colors.magenta(`/${numTotal}`);
-    
-    const show = () => console.log(nameBar, filled.repeat(numFilled) + blank.repeat(numBlank), current + total);
-    const critical = () => numCurrent === numTotal;
-    const setCurrent = num => {
-      numCurrent = num;
-      update();
-    };
-    const addCurrent = num => {
-      numCurrent += num;
-      update();
-    }
-    const getText = () => current + total;
-    const update = () => {      
-      current = colors.magenta(numCurrent);
-      numFilled = numCurrent * 10;
-      numBlank = (numTotal * 10) - (numCurrent * 10);
-    }
-    const close = () => clearInterval(timer);
-    
-    const timer = setInterval(function () {
-      numCurrent < numTotal && numCurrent++;;
-      update();
-    }, miliseconds);
 
-    return {
-      show,
-      critical,
-      setCurrent,
-      addCurrent,
-      getText,
-      close,
+    const methods = {
+      setNamePet: name => namePet = name,
+      setDouble: toggle => double = toggle,
+      setCurrent: num => {
+        numCurrent = num;
+        methods.update();
+      },
+      setAct: newAct => act = newAct,
+      
+      show: () => console.log(nameBar, filled.repeat(numFilled) + blank.repeat(numBlank), current + total),
+      critical: () => numCurrent === numTotal,
+      addCurrent: num => {
+        numCurrent += num;
+        methods.update();
+        notificate();
+      },
+      update: () => {      
+        current = colors.magenta(numCurrent);
+        numFilled = numCurrent * 10;
+        numBlank = (numTotal * 10) - (numCurrent * 10);
+      },
+      verify: (time, changedStatus) => {
+        if (time % seconds === 0) {
+          if (numCurrent < numTotal) {
+            increment = double ? increment * 2 : 1;        
+            numCurrent = numCurrent + increment < numTotal ? numCurrent + increment : numTotal;
+            methods.update();         
+          }
+          
+          !changedStatus && notificate();
+          changedStatus = true;
+        }
+
+        return changedStatus;
+      }
     }
+    
+    const notificate = () => {      
+      console.log('');
+      console.log(colors[color](`${namePet} is ${adjective}`));
+      act();
+    }
+
+    return methods
   },
   
   apresetantion: () => {
     console.log(colors.yellow("\n Hello, you won a pet, take good care of its."));
   },
 
-  badNews: () => {
+  badNews: stopwatch => {
     console.log(colors.magenta(
-      `Unfortunately I have bad news for you, your little animal has gone to a much better place, but now he is at peace.`
+      `Unfortunately I have bad news for you, your little animal has gone to a much better place, but now he is at peace.
+      He lived ${stopwatch} seconds.`
     ));
   },
 
